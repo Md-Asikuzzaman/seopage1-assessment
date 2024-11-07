@@ -10,7 +10,7 @@ interface Props {
 
 const TodoBoxHeader: FC<Props> = ({ title, count, isIcon, iconColor }) => {
   return (
-    <h2 className='flex items-center justify-between p-2'>
+    <h2 className='flex items-center justify-between p-2 pb-4'>
       <div className='flex items-center gap-1 text-base font-medium text-slate-800'>
         {isIcon && (
           <span
