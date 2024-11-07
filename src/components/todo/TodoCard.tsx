@@ -48,7 +48,7 @@ const TodoCard = () => {
             12+
           </div>
         </div>
-        <div className='flex gap-2'>
+        <div className='flex gap-3'>
           <div className='text-xs font-semibold flex items-center gap-1 text-[#666666]'>
             <FaRegComments size={15} />
             15
