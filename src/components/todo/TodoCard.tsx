@@ -5,13 +5,10 @@ import { IoLayers } from 'react-icons/io5';
 import { FaClipboardList, FaRegComments } from 'react-icons/fa6';
 import { GrAttachment } from 'react-icons/gr';
 import { SlCalender } from 'react-icons/sl';
+import { useModalStore } from '../../lib/store';
 
 const TodoCard = () => {
-  const handleFile = () => {
-    alert('clicked');
-
-    console.log('clicked!');
-  };
+  const { setIsModal } = useModalStore();
 
   return (
     <div className='bg-white p-2 rounded-md mr-2'>
@@ -54,7 +51,7 @@ const TodoCard = () => {
             15
           </div>
           <div
-            onClick={handleFile}
+            onClick={() => setIsModal()}
             className='text-xs font-semibold flex items-center gap-1 text-[#666666] cursor-pointer'
           >
             <GrAttachment size={14} />
