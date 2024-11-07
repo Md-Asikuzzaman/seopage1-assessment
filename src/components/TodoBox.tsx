@@ -1,17 +1,17 @@
 import { FC } from 'react';
 import TodoBoxHeader from './TodoBoxHeader';
-import TodoCard from './todo/TodoCard';
 
 interface Props {
   title: string;
   count: string;
   isIcon?: boolean;
   iconColor?: string;
+  card: React.ReactNode;
 }
 
-const TodoBox: FC<Props> = ({ title, count, isIcon, iconColor }) => {
+const TodoBox: FC<Props> = ({ title, count, isIcon, iconColor, card }) => {
   return (
-    <div className='bg-[#F2F4F7] min-w-[300px]'>
+    <div className='bg-[#F2F4F7] min-w-[300px] px-2'>
       <TodoBoxHeader
         title={title}
         count={count}
@@ -19,7 +19,7 @@ const TodoBox: FC<Props> = ({ title, count, isIcon, iconColor }) => {
         iconColor={iconColor}
       />
 
-      <TodoCard />
+      {card}
     </div>
   );
 };
