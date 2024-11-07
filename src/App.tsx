@@ -1,7 +1,9 @@
+import TodoBox from './components/TodoBox';
+
 const App = () => {
   return (
     <div>
-      <h1>hello world</h1>
+      <TodoBox />
     </div>
   );
 };
