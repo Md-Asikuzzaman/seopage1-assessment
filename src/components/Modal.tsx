@@ -1,9 +1,37 @@
 import { IoCloseOutline, IoCloudUploadOutline } from 'react-icons/io5';
 import { MdInsertDriveFile } from 'react-icons/md';
 import { useModalStore } from '../lib/store';
+import { useDropzone } from 'react-dropzone';
+import { useState } from 'react';
+import clsx from 'clsx';
 
 const Modal = () => {
   const { setIsModal } = useModalStore();
+
+  // Define the state for storing the files
+  const [files, setFiles] = useState<File[]>([]);
+
+  console.log(files);
+
+  // Handle file drop
+  const onDrop = (acceptedFiles: File[]) => {
+    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
+  };
+
+  // Delete a specific file
+  const handleDelete = (fileToDelete: File) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file !== fileToDelete));
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    multiple: true,
+    accept: {
+      'image/jpeg': [],
+      'image/png': [],
+      'image/svg': [],
+    },
+  });
 
   return (
     <div
@@ -30,44 +58,55 @@ const Modal = () => {
           </p>
         </div>
         {/* file drop area */}
-
-        <div className='border-2 border-dashed border-blue-300 hover:border-blue-500 h-[200px] rounded-md flex items-center justify-center cursor-pointer'>
+        <div
+          {...getRootProps()}
+          className='border-2 border-dashed border-blue-300 hover:border-blue-500 h-[200px] rounded-md flex items-center justify-center cursor-pointer'
+        >
           <div className='flex flex-col gap-6 items-center'>
             <IoCloudUploadOutline size={40} className='text-blue-600' />
             <h3 className='text-md text-gray-500'>
               Click to upload or drag and drop
             </h3>
+            <input {...getInputProps()} />
           </div>
         </div>
 
         {/* all files */}
-        <div className='flex flex-col gap-1 pb-3 pt-4'>
-          <div className='flex items-center justify-between bg-[#F5F7F8] p-3 rounded-md'>
-            <div className='flex items-center gap-1'>
-              <MdInsertDriveFile className='text-teal-500' />
-              <p>file1.png</p>
-            </div>
-            <IoCloseOutline className='cursor-pointer' />
+        <br />
+        {files.length > 0 && (
+          <div
+            className={clsx(
+              'flex flex-col gap-1 pb-3 max-h-[300px]',
+              files.length > 5 && 'overflow-y-scroll scrollbar-vr'
+            )}
+          >
+            {files.map((file) => (
+              <div className='flex items-center justify-between bg-[#F5F7F8] p-3 rounded-md gap-5'>
+                <div className='flex items-center gap-1'>
+                  <MdInsertDriveFile className='text-teal-500' />
+                  <p className='text-sm line-clamp-1'>{file.name}</p>
+                </div>
+                <IoCloseOutline
+                  onClick={() => handleDelete(file)}
+                  className='cursor-pointer shrink-0'
+                />
+              </div>
+            ))}
           </div>
-          <div className='flex items-center justify-between bg-[#F5F7F8] p-3 rounded-md'>
-            <div className='flex items-center gap-1'>
-              <MdInsertDriveFile className='text-teal-500' />
-              <p>file2.png</p>
-            </div>
-            <IoCloseOutline className='cursor-pointer' />
-          </div>
-          <div className='flex items-center justify-between bg-[#F5F7F8] p-3 rounded-md'>
-            <div className='flex items-center gap-1'>
-              <MdInsertDriveFile className='text-teal-500' />
-              <p>file3.png</p>
-            </div>
-            <IoCloseOutline className='cursor-pointer' />
-          </div>
-        </div>
+        )}
+
+        <p className='text-sm text-gray-500'>Total {files.length} files.</p>
 
         {/* upload button */}
         <div className='border-t pt-3'>
-          <button className='bg-blue-400 hover:bg-blue-500 transition-colors text-sm text-white py-2 px-4 rounded-md'>
+          <button
+            disabled={!files.length}
+            onClick={() => {
+              alert('Uploading...');
+              setFiles([]);
+            }}
+            className='bg-blue-400 hover:bg-blue-500 transition-colors text-sm text-white py-2 px-4 rounded-md'
+          >
             Upload
           </button>
         </div>
