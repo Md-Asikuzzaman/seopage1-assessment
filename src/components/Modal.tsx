@@ -8,10 +8,8 @@ import clsx from 'clsx';
 const Modal = () => {
   const { setIsModal } = useModalStore();
 
-  // Define the state for storing the files
+  // Files state
   const [files, setFiles] = useState<File[]>([]);
-
-  console.log(files);
 
   // Handle file drop
   const onDrop = (acceptedFiles: File[]) => {
@@ -32,6 +30,14 @@ const Modal = () => {
       'image/svg': [],
     },
   });
+
+  const handleSubmit = () => {
+    alert('Uploading...');
+
+    console.log(files);
+
+    setFiles([]);
+  };
 
   return (
     <div
@@ -101,10 +107,7 @@ const Modal = () => {
         <div className='border-t pt-3'>
           <button
             disabled={!files.length}
-            onClick={() => {
-              alert('Uploading...');
-              setFiles([]);
-            }}
+            onClick={handleSubmit}
             className='bg-blue-400 hover:bg-blue-500 transition-colors text-sm text-white py-2 px-4 rounded-md'
           >
             Upload
