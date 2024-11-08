@@ -48,7 +48,7 @@ const Modal = () => {
         onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
         }}
-        className='bg-white max-w-[500px] w-full p-3.5 rounded-lg space-y-1'
+        className='bg-white max-w-[500px] w-full p-3.5 rounded-lg space-y-1 m-4'
       >
         <div className='mb-4'>
           <div className='flex items-center justify-between'>
@@ -108,7 +108,10 @@ const Modal = () => {
           <button
             disabled={!files.length}
             onClick={handleSubmit}
-            className='bg-blue-400 hover:bg-blue-500 transition-colors text-sm text-white py-2 px-4 rounded-md'
+            className={clsx(
+              'bg-blue-400 transition-colors text-sm text-white py-2 px-4 rounded-md',
+              !files.length ? 'cursor-not-allowed' : 'hover:bg-blue-500'
+            )}
           >
             Upload
           </button>
